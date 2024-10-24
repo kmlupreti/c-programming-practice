@@ -1,5 +1,5 @@
 // different version of program showing fahrenheit to celsius table
-// It used for loop and symbolic constants
+// It uses for loop and symbolic constants
 #include <stdio.h>
 #define INITIAL 0
 #define FINAL 300
