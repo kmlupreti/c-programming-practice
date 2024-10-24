@@ -8,7 +8,7 @@ int main() {
   int c, state;
   state = OUTSIDE_WORD;
   while ((c = getchar()) != EOF) {
-    if (c == '\n' && c == '\t' && c == ' ')
+    if (c == '\n' || c == '\t' || c == ' ')
       state = OUTSIDE_WORD;
     else if (state == OUTSIDE_WORD) {
       state = INSIDE_WORD;
