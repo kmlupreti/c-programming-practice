@@ -22,7 +22,7 @@ int get_line(char line[]) {
 
 // copy string (or array) of characters
 void copy(char *from, char *to) {
-  while ((*to++ = *from++) != '\0')
+  while ((*to++ = *from++))
     ;
 }
 int main() {
