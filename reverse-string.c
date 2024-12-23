@@ -29,12 +29,13 @@ void swap(char *a, char *b) {
 }
 
 // calculate the length of a string
-int string_length(char s[]) {
-  int i = 0;
-  while (s[i] != '\0') { // loop until the end of the string
-    i++;
+int string_length(char *s) {
+  char *temp = s;      // create another pointer to same string
+  while (*s != '\0') { // loop until the end of the string
+    s++;
   }
-  return i; // return the total length of the string
+  return s - temp; // return the total length of the string as difference
+                   // between pointers at begining and the end of the string
 }
 
 // reverse the characters in a string
