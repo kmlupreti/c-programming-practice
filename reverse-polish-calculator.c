@@ -8,19 +8,25 @@
 #define MAXOP 100
 // character flag that signifies that a valid number is found
 #define NUMBER_FOUND '0'
+// maxmimum length of character in a buffer
+#define BUF_LEN 32
 
 // stack to hold operands for calculation
-char stack[MAXOP];
+double stack[MAXOP];
 // next free position in the stack
-int next_free_pos = 0;
+int sp = 0;
+// buffer to store characters for ungetch operation
+char buf[BUF_LEN];
+// index to next free position on character buffer
+int bp = 0;
 
 // it returns operator or letter '0' if its an operand
 // the passed string is populated with and operand if its found
 char getop(char[]);
 // get next buffered character
 char getch();
-// unget character i.e return to the state before reading the previous character
-void ungetch();
+// put back the character back to input buffer
+void ungetch(char);
 // push operand to the stack
 void push(double);
 // pop an operand from the stack
@@ -28,11 +34,11 @@ double pop();
 
 int main() {
   char c;
-  char s[MAXOP];
+  char s[MAXLEN];
   double op2; // second operand
   while ((c = getop(s)) != EOF) {
     switch (c) {
-    case 'o':
+    case '0':
       push(atof(s));
       break;
     case '+':
@@ -49,57 +55,74 @@ int main() {
       op2 = pop();
       if (op2 == 0.0) {
         printf("error: cannot divide by zero!\n");
-        return 1;
       }
       push(pop() / op2);
       break;
     case '\n':
-      printf("result: %f", pop());
+      printf("%.4f\n", pop());
       break;
+    default:
+      printf("error: unknown operation '%s'\n", s);
     }
   }
   return 0;
 }
 
 void push(double n) {
-  if (next_free_pos < MAXOP)
-    stack[next_free_pos++] = n;
+  if (sp < MAXOP)
+    stack[sp++] = n;
   else
     printf("error: too many operands!\n");
 }
 
 double pop() {
-  if (next_free_pos > 0)
-    return stack[--next_free_pos];
+  if (sp > 0)
+    return stack[--sp];
   else {
-    printf("error: too few operands");
+    printf("error: too few operands\n");
     return 0.0;
   }
 }
 
 char getop(char n[]) {
   char c;
-  int i;
-  // repeatedly take input and skip if its a whitespace or tab.
-  // string n gets the final whitespace or tab character
-  while ((n[0] = c = getch()) && c == ' ' || c == '\t')
+  int i = 0;
+  // skip whitespaces and tabs
+  while ((c = getch()) == ' ' || c == '\t')
     ;
+  n[0] = c;
   n[1] = '\0';
+  // return the character if its not a number
   if (!isdigit(c) && c != '.')
-    // return if there is not valid character
     return c;
-  // collect the digits before decimal
+  // collect the digits before decimal point
   if (isdigit(c)) {
-    while (isdigit(c = n[i++] = getch()))
-      ;
+    n[i++] = c;
+    while (isdigit(c = getch()))
+      n[i++] = c;
   }
-  // collect the digits after the decimal
+  // collect the digits after the decimal point
   if (c == '.') {
-    while (isdigit(c = n[++i] = getch()))
-      ;
+    n[i] = '.';
+    while (isdigit(c = getch()))
+      n[i++] = c;
   }
   n[i] = '\0';
   if (c != EOF)
-    ungetch();
+    ungetch(c);
   return NUMBER_FOUND;
+}
+
+char getch() {
+  if (bp > 0)
+    return buf[--bp];
+  else
+    return getchar();
+}
+
+void ungetch(char c) {
+  if (bp < BUF_LEN)
+    buf[bp++] = c;
+  else
+    printf("error: character buffer full!\n");
 }
