@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+
 // maximum number of lines
 #define MAXLINES 5000
 // maximum length of a line
@@ -11,11 +12,11 @@ char *lineptr[MAXLINES];
 // reads character and puts in line[] and returns its length
 int get_line(char line[]);
 
-// reads lines into LINEPTR
+// reads lines into lineptr
 int readlines(char *lineptr[]);
 
 // swap the values pointed by two pointers of a string
-void swap(char str[], int x, int y);
+void swap(char *lineptr[], int x, int y);
 
 // sorts the lines lexicographically using quick sort
 // void sort_lines(char *lineptr[], int left, int right);
@@ -83,16 +84,35 @@ void print_lines(char *lineptr[], int nlines) {
   }
 }
 
-void swap(char str[], int x, int y) {
+void swap(char *lineptr[], int x, int y) {
   char *temp;
-  *temp = str[x];
-  str[x] = str[y];
-  str[y] = *temp;
+  *temp = *lineptr[x];
+  *lineptr[x] = *lineptr[y];
+  *lineptr[y] = *temp;
+}
+
+int partition(char *lineptr[], int first, int last) {
+  // set last element as pivot
+  char *p = lineptr[last];
+  // position of elements smaller than pivot
+  int l = first - 1;
+
+  for (int i = first; i < last; i++) {
+    if (strcmp(lineptr[i], p) < 0) {
+      l++;
+      swap(lineptr, i, l);
+    }
+  }
+  swap(lineptr, last, l + 1);
+  return l + 1;
 }
 
 void sort_lines(char *lineptr[], int left, int right) {
   // do nothing if there is less than two elements
-  if (strcmp(lineptr[left], lineptr[right]) <=0)
-    return;
-  //TODO: complete this sorting function
+  if (strcmp(lineptr[left], lineptr[right]) > 0) {
+
+    int p = partition(lineptr, left, right);
+    sort_lines(lineptr, left, p - 1);
+    sort_lines(lineptr, p + 1, right);
+  }
 }
