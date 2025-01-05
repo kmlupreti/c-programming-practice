@@ -4,6 +4,8 @@
 void swap(int nums[], int i, int j);
 // sort the given array
 void quicksort(int nums[], int first, int last);
+// partition the array using lomuto partition method and return its index
+int partition(int nums[], int first, int last);
 
 int main() {
   int i;
@@ -20,28 +22,26 @@ int main() {
   }
 }
 
+int partition(int nums[], int first, int last) {
+  // set last element as pivot
+  int p = nums[last];
+  // position of elements smaller than pivot
+  int l = first - 1;
+
+  for (int i = first; i < last; i++) {
+    if (nums[i] < p) {
+      l++;
+      swap(nums, i, l);
+    }
+  }
+  swap(nums, last, l + 1);
+  return l + 1;
+}
 void quicksort(int nums[], int first, int last) {
   if (first < last) {
-    int mid = (first + last) / 2;
-    // use middle element for partitioning
-    int p = mid;
-    // swap between elements at first index and middle partition index
-    swap(nums, first, p);
-    // test mid-value with other values in the array.Here mid-value is currently
-    // in first index so iteration starts from first+1 index
-    for (int i = first + 1; i <= last; i++) {
-      if (nums[i] < nums[mid])
-        // if value at current index is smaller than mid-value then
-        // swap values between those indices.It keeps the values less than
-        // mid-value on left indices of mid-value index
-        swap(nums, ++mid, i);
-    }
-    // restore index of first and middle which were swapped previously
-    swap(nums, first, mid);
-    // recursively sort left and right subarray consisting of values less than
-    // value at partition index i.e mid value in this case
-    quicksort(nums, first, mid - 1);
-    quicksort(nums, mid + 1, last);
+    int p = partition(nums, first, last);
+    quicksort(nums, first, p - 1);
+    quicksort(nums, p + 1, last);
   }
 }
 
