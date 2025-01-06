@@ -4,18 +4,12 @@
 // arguments. The first argument argv[0] is program name so argc is 1 more than
 // no. of arguments supplied
 int main(int argc, char *argv[]) {
-  // we need to check if there is more than one argument
-  if (argc > 1) {
-    int i = 1;
-    while (i < argc) {
-      // add space at the end of arguments before last one
-      printf("%s", argv[i]);
-      if (i < argc - 1)
-        printf(" ");
-      i++;
-    }
-  } else {
-    printf("\n");
+  // the condition helps in both situations: checking if arguments is supplied
+  // and loop is run within array bound.
+  while (--argc > 0) {
+    // pointer is increment first as it points to argv[0] but first argument is
+    // argv[1]. If the argument is not last then space is added at its end.
+    printf("%s%s", *++argv, (argc > 1) ? " " : "");
   }
   return 0;
 }
