@@ -1,5 +1,7 @@
 #include <stdio.h>
-void print_array(int a[4][3]) {
+// in argument a[n][m], n can be omitted as passed argument is pointer to
+// first row. But we need no. of ints in each row
+void print_array(int a[][3]) {
   for (int i = 0; i < 4; i++)
     for (int j = 0; j < 3; j++)
       printf("position: (%d,%d) value: %d\n", i, j, a[i][j]);
