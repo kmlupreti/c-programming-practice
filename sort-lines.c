@@ -19,7 +19,7 @@ int readlines(char *lineptr[]);
 void swap(char *lineptr[], int x, int y);
 
 // sorts the lines lexicographically using quick sort
-// void sort_lines(char *lineptr[], int left, int right);
+void sort_lines(char *lineptr[], int first, int last);
 
 // prints the lines
 void print_lines(char *lineptr[], int nlines);
@@ -27,7 +27,7 @@ void print_lines(char *lineptr[], int nlines);
 int main() {
   int nlines;
   if ((nlines = readlines(lineptr)) >= 0) {
-    // sort_lines(lineptr, 0, nlines - 1);
+    sort_lines(lineptr, 0, nlines - 1);
     print_lines(lineptr, nlines);
   } else {
     printf("error: too big to sort!");
@@ -77,8 +77,9 @@ int readlines(char *lineptr[]) {
   }
   return nlines;
 }
+
 void print_lines(char *lineptr[], int nlines) {
-  printf("the lines are given below:\n");
+  printf("\nlines sorted lexicographically:\n");
   for (int i = 0; i < nlines; i++) {
     printf("%s\n", lineptr[i]);
   }
