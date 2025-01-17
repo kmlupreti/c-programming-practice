@@ -20,4 +20,4 @@ int *(*h)();
 int (*i[10])();
 
 // pointer to function returning pointer to an array of integers
-int *(*j[10])()
+int *(*j[10])();
