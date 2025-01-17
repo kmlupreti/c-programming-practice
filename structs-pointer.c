@@ -50,7 +50,7 @@ int main() {
       scanf("%f", &balance);
       add_balance(&user, balance);
     } else
-      break;
+      exit(1);
   }
   return 0;
 }
