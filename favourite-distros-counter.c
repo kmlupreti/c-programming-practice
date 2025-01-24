@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <strings.h>
 #define TOTAL_DISTROS (sizeof distro_list / sizeof(struct distro))
+#define MAX_DISTRO_NAME 15
 
 struct distro {
   char *name;
@@ -17,16 +18,19 @@ struct distro distro_list[] = {
 
 };
 
-int get_distro_name(char *name) {
+int get_distro_name(char *name, int max_len) {
+  // handle invalid name and max_len arguments
+  if (name == NULL || max_len <= 0)
+    return 0;
   char c;
   int len = 0;
   printf("enter distro name to vote:\n");
-  while ((c = getchar()) != EOF && c != '\n')
+  while (len < max_len - 1 && (c = getchar()) != EOF && c != '\n')
     name[len++] = c;
   // add null terminator and increment value of len
-  // only if name was populated
+  // only if distro name was provided
   if (len > 0)
-    name[len++] = '\0';
+    name[len] = '\0';
   return len;
 }
 
@@ -38,10 +42,10 @@ void display_distros() {
 }
 
 int main() {
-  char *distro_name;
+  char distro_name[MAX_DISTRO_NAME];
   int matched_index = -1;
   display_distros();
-  while (get_distro_name(distro_name) > 0) {
+  while (get_distro_name(distro_name, MAX_DISTRO_NAME) > 0) {
     for (int i = 0; i < TOTAL_DISTROS; i++) {
       if (strcasecmp(distro_name, (distro_list[i]).name) == 0) {
         matched_index = i;
@@ -54,9 +58,9 @@ int main() {
     } else
       printf("Error: distro with that name not found\n");
   }
+  printf("Distro    Total votes\n");
   for (int i = 0; i < TOTAL_DISTROS; i++) {
-    printf("Distro\t\tTotal votes\n");
-    printf("%s\t\t%d", (distro_list[i]).name, (distro_list[i]).count);
+    printf("%s  %d\n", (distro_list[i]).name, (distro_list[i]).count);
   }
   return 0;
 }
