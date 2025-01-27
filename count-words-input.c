@@ -1,14 +1,12 @@
 // This program counts the number of occurences of the words given from the
-// input.It uses binary tree data structure to store word and its count. It also
-// uses binary search instead of linear search as latter one grows quadratically
-// with input i.e its time complexity is O(n^2) For each word in input, the tree
-// is traversed and compared with root node If the input word is same as word of
-// root node its count is incremented If the word of root node is smaller then
-// we go to left node otherwise we go to right node and countinue this process.
-// We need to add new node if no node has same word as in input.
-// This process helps to keep track of input word count as well in building the
-// tree itself. The word on left node is always lexicographically smaller than
-// word on root node while word on right node is greater
+// input. It uses binary tree data structure to store word and its count. It
+// also uses binary search instead of linear search as latter one grows
+// quadratically with input i.e its time complexity is O(n^2).For each word in
+// input, the tree is traversed and compared with root node. If the input word
+// is same as word of root node its count is incremented. else if the word of
+// root node is smaller then left node is traversed otherwise we go to right
+// node. Similarly,a new node is added if no node has same word as in input.This
+// process is repeated until word is provided from the input.
 
 #include <string.h>
 #define MAX_WORD 100
