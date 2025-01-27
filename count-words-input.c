@@ -44,7 +44,16 @@ int get_word(char *word, int max_len) {
 struct Node *alloc_node() { return (struct Node *)malloc(sizeof(struct Node)); }
 
 // creates a copy of given word pointer and returns its pointer
-char *copy_word(char *word);
+char *copy_word(char *word) {
+  char *p;
+  // allocate memory for the word to be copied and extra null character
+  p = (char *)malloc(strlen(word) + 1);
+  if (p != NULL) {
+    // copy given word to new word if allocation was successful
+    strcpy(p, word);
+  }
+  return p;
+}
 
 // traverses through binary tree and does one of the following action for each
 // node: a) Initialize a new node with current word if there is no node b)
