@@ -1,18 +1,18 @@
 #include <stdio.h>
 
 // gets a new word from the user
-int get_word(char word[], int max_len) {
+int get_word(char *word) {
   char c;
-  int len = 0;
+  char *original_word_ptr = word;
   printf("enter a word:\n");
-  while (len < max_len - 1 && (word[len] = c = getchar()) != EOF && c != '\n')
-    len++;
+  while ((c = getchar()) != EOF && c != '\n')
+    *word++ = c;
   // add null terminator at the end of word to make it a valid string
-  word[len] = '\0';
-  return len;
+  *word = '\0';
+  return word - original_word_ptr;
 }
 int main() {
-  char word[100];
-  int len = get_word(word, 100);
-  printf("word: %s length: %d\n", word, len);
+  char *word;
+  int len = get_word(word);
+  printf("\nword: %s length: %d\n", word, len);
 }
