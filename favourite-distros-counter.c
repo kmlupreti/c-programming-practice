@@ -18,19 +18,17 @@ struct distro distro_list[] = {
 
 };
 
-int get_distro_name(char *name, int max_len) {
-  // handle invalid name and max_len arguments
-  if (name == NULL || max_len <= 0)
+int get_distro_name(char name[], int max_len) {
+  // handle invalid max_len argument
+  if (max_len <= 0)
     return 0;
   char c;
   int len = 0;
-  printf("enter distro name to vote:\n");
-  while (len < max_len - 1 && (c = getchar()) != EOF && c != '\n')
-    name[len++] = c;
-  // add null terminator and increment value of len
-  // only if distro name was provided
-  if (len > 0)
-    name[len] = '\0';
+  printf("\nenter distro name to vote:\n");
+  while (len < max_len - 1 && (name[len] = c = getchar()) != EOF && c != '\n')
+    len++;
+  // add null terminator at the end of word to make it a valid string
+  name[len] = '\0';
   return len;
 }
 
