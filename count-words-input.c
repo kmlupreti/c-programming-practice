@@ -8,10 +8,9 @@
 // node. Similarly,a new node is added if no node has same word as in input.This
 // process is repeated until word is provided from the input.
 
-#include <string.h>
-#define MAX_WORD 100
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // node of a binary tree data structure
 // it holds word and its frequency count
@@ -24,20 +23,15 @@ struct Node {
 };
 
 // gets a new word from the user
-int get_word(char *word, int max_len) {
-  // handle invalid arguments
-  if (word == NULL || max_len <= 0)
-    return 0;
+int get_word(char *word) {
   char c;
-  int len = 0;
+  char *original_word_ptr = word;
   printf("enter a word:\n");
-  while (len < max_len - 1 && (c = getchar()) != EOF && c != '\n')
-    word[len++] = c;
-  // add null terminator and increment value of len
-  // only if a valid word was provided
-  if (len > 0)
-    word[len] = '\0';
-  return len;
+  while ((c = getchar()) != EOF && c != '\n')
+    *word++ = c;
+  // add null terminator at the end of word to make it a valid string
+  *word = '\0';
+  return word - original_word_ptr;
 }
 
 // allocates memory for the new node
@@ -96,8 +90,8 @@ void show_node_tree(struct Node *node) {
 
 int main() {
   struct Node *current_node;
-  char word[MAX_WORD];
-  while (get_word(word, MAX_WORD) > 0) {
+  char *word;
+  while (get_word(word) > 0) {
     traverse_tree(current_node, word);
   }
 }
