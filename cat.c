@@ -10,6 +10,7 @@ int main(int argc, char *argv[]) {
       fp = fopen(argv[i], "r");
       while ((c = getc(fp)) != EOF)
         putchar(c);
+      fclose(fp);
     }
   }
   return 0;
