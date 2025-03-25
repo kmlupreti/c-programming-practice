@@ -19,13 +19,13 @@ int readchar() {
     n = read(0, buf, BUFSIZE);
     bufp = buf;
   }
-  // if there is any char in buffer then return it and decrement n
+  // check if there is any char in buffer and then decrement n
   if (n-- > 0)
     // return the chracter pointed by buffer pointer and increment it to point
     // to next char
     return (unsigned char)*bufp++;
   else
-    return -1; // return EOF if read syscall returned error or EOF
+    return -1; // return EOF if read syscall returned error(-1) or EOF(0)
 }
 int main() {
   char c;
